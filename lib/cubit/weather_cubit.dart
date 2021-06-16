@@ -12,10 +12,13 @@ class WeatherCubit extends Cubit<WeatherState> {
 
   Future<void> getWeather(String cityName) async {
     try {
+      print("loading");
       emit(WeatherLoading());
       final weather = await _weatherRepository.fetchWeather(cityName);
+      print("loaded");
       emit(WeatherLoaded(weather));
     } on NetworkException {
+      print("error");
       emit(WeatherError("Couldn't fetch weather. Is the device online?"));
     }
   }
